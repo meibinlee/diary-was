@@ -1,2 +1,2 @@
 # diary-was
-trip diary springboot application
+Trip diary springboot application
