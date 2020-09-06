@@ -1,0 +1,15 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
+      enabled: true
+
+datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/trip_diary_db?serverTimezone=UTC
+  username: root
+  password: qlslqlslqla
+
+dir:
+  upload: "/Users/kikittong/github/diary-web/img"

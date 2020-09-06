@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import ac.hongik.tripdiary.data.Posting;
 import ac.hongik.tripdiary.data.Result;
@@ -40,4 +41,25 @@ public class PostingController {
 		return res;
 	}
 
+	@RequestMapping(value="/upload", method=RequestMethod.POST)	
+	@ResponseBody
+    public Result upload(@RequestParam("file") MultipartFile file, 
+    		 @RequestParam("diary_id") String diary_id,
+    		 @RequestParam("photo") String photo, 
+    		 @RequestParam("diaryment") String diaryment, 
+    		 @RequestParam("posting_date") String posting_date) {
+		logger.info("===> REQUEST [/upload] diary_id =" + diary_id);
+		
+		Posting posting = new Posting();
+		posting.diary_id = Integer.parseInt(diary_id);
+		posting.photo = photo;
+		posting.diaryment = diaryment;
+		posting.posting_date = posting_date;
+		
+    	Result result = postingService.addPicture(file, posting);
+
+    	logger.info("<=== RESPONSE [/upload] result=" + result.toString());
+		
+		return result;
+	}
 }

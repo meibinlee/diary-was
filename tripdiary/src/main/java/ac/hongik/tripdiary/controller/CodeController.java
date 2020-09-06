@@ -20,6 +20,13 @@ public class CodeController {
 	@Autowired
 	CodeService codeService;
 	
+	@RequestMapping(value="/country", method=RequestMethod.GET)	
+	@ResponseBody
+	public Result country() {
+		Result res = codeService.getCountry();
+		return res;
+	}
+	
 	@RequestMapping(value="/city", method=RequestMethod.GET)	
 	@ResponseBody
 	public Result city(@RequestParam String country) {

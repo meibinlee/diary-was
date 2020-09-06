@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 import ac.hongik.tripdiary.data.Posting;
+import ac.hongik.tripdiary.tools.DateTool;
 
 public class PostingRowMapper implements RowMapper<Posting> {
 
@@ -16,7 +17,7 @@ public class PostingRowMapper implements RowMapper<Posting> {
 			item.diary_id = rs.getInt("diary_id");
 			item.photo = rs.getString("photo");
 			item.diaryment = rs.getString("diaryment");
-			item.posting_date = rs.getDate("posting_date");
+			item.posting_date = DateTool.toDate(rs.getDate("posting_date"));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
