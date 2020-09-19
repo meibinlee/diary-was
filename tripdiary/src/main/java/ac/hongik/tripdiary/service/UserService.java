@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import ac.hongik.tripdiary.data.CityName;
 import ac.hongik.tripdiary.data.Result;
 import ac.hongik.tripdiary.data.User;
 import ac.hongik.tripdiary.data.UserCity;
@@ -35,6 +36,14 @@ public class UserService {
 	       	List<User> list = namedJdbcTemplate.query(sql.toString(), map, new UserRowMapper());
 	       	if(list.size() > 0) {
 	       		User item = list.get(0);
+	       		List<CityName> cities = selectCityName(user.user_id);
+	       		logger.info(">>>> cities size] " + cities.size());
+	       		for(int i = 0; i < cities.size(); i++) {
+	       			CityName city = cities.get(i);
+	       			item.city.add(city);
+	       			logger.info(">>>> city.city_id] " + city.city_id);
+	       		}
+	       		
 	       		if(item.user_pw.equals(user.user_pw)) {
 		       		result.result = Result.SUCCESS;
 		       		result.body = item;
@@ -87,7 +96,7 @@ public class UserService {
 	        if(row > 0) {
 	        	boolean b = true;
 	        	for(int i = 0; i < user.city.size(); i++) {
-	        		b = insertCities(user.user_id, user.city.get(i));
+	        		b = insertCities(user.user_id, user.city.get(i).city_id);
 	        		if(b = false) {
 	    	        	break;
 	        		}
@@ -166,7 +175,7 @@ public class UserService {
 	        if(row > 0) {
 	        	boolean b = true;
 	        	for(int i = 0; i < user.city.size(); i++) {
-	        		b = insertCities(user.user_id, user.city.get(i));
+	        		b = insertCities(user.user_id, user.city.get(i).city_id);
 	        		if(b = false) {
 	    	        	break;
 	        		}
@@ -231,7 +240,7 @@ public class UserService {
 		       	sql.append(" WHERE user_id=:user_id AND city_id=:city_id");
 	       	}
 	       	else {
-		       	sql.append(" WHERE user_id=:user_id");	       		
+		       	sql.append(" WHERE user_id=:user_id");
 	       	}
 	        logger.info(">>>> SQL] " + sql.toString());
 	
@@ -240,6 +249,27 @@ public class UserService {
 	        map.put("city_id", city_id);
 	
 	       	List<UserCity> list = namedJdbcTemplate.query(sql.toString(), map, new UserCityRowMapper());
+	       	return list;
+	    } catch(Exception e) {
+	   		logger.error(e.toString());
+	   		e.printStackTrace();
+	   	}
+	   	return null;
+	}
+	
+	private List<CityName> selectCityName(String user_id) {
+	   	try {
+	        StringBuffer sql = new StringBuffer();
+	       	sql.append("SELECT city_id, city FROM trip_diary_db.cities");
+	       	sql.append(" WHERE city_id IN");
+	       	sql.append("(SELECT city_id FROM user_cities_favorite WHERE user_id=:user_id);");     	
+	       	 
+	        logger.info(">>>> SQL] " + sql.toString());
+	
+	        Map<String, Object> map = new HashMap<String, Object>();
+	        map.put("user_id", user_id);
+	
+	       	List<CityName> list = namedJdbcTemplate.query(sql.toString(), map, new CityNameRowMapper());
 	       	return list;
 	    } catch(Exception e) {
 	   		logger.error(e.toString());
@@ -263,10 +293,10 @@ public class UserService {
 	       	List<User> list = namedJdbcTemplate.query(sql.toString(), map, new UserRowMapper());
 	       	if(list.size() > 0) {
 	       		User user = list.get(0);
-	       		List<UserCity> cities = selectCities(user_id, -1);
+	       		List<CityName> cities = selectCityName(user_id);
 	       		for(int i = 0; i < cities.size(); i++) {
-	       			UserCity city = cities.get(i);
-	       			user.city.add(city.city_id);
+	       			CityName city = cities.get(i);
+	       			user.city.add(city);
 	       		}
 	       		result.result = Result.SUCCESS;
 	       		result.body = user;

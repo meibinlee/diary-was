@@ -10,5 +10,5 @@ public class User {
 	public String birthdate;
 	public String sex;
 	public Date signup_date;
-	public ArrayList<Integer> city = new ArrayList<Integer>();
+	public ArrayList<CityName> city = new ArrayList<CityName>();
 }

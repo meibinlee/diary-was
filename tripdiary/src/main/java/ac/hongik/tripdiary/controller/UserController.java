@@ -49,15 +49,15 @@ public class UserController {
 		return res;
 	}
 	
-	@RequestMapping(value="/profile", method=RequestMethod.GET)	
+/*	@RequestMapping(value="/profile", method=RequestMethod.GET)	
 	@ResponseBody
-	public Result getProfile(@RequestParam String user_id) {
+	public Result getProfile(@RequestParam User user) {
 		
-		Result res = userService.getProfile(user_id);
+		Result res = userService.getUser(user);
 		
 		return res;
 	}	
-	
+*/	
 	@RequestMapping(value="/profile", method=RequestMethod.POST)	
 	@ResponseBody
 	public Result setProfile(@RequestBody User user) {
