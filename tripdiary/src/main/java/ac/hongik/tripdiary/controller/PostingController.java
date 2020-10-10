@@ -27,7 +27,11 @@ public class PostingController {
 	@ResponseBody
 	public Result create(@RequestBody Posting posting) { 
 
+		logger.debug("REQ] /posting/create diary_id=" + posting.diary_id);
+		
 		Result res = postingService.createPosting(posting);
+
+		logger.info("WAS] /posting/create result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + posting.diary_id);
 		
 		return res;
 	}
@@ -35,8 +39,12 @@ public class PostingController {
 	@RequestMapping(value="/list", method=RequestMethod.GET)	
 	@ResponseBody
 	public Result list(@RequestParam String diary_id) {
-        logger.info(">>>> diary_id[" + diary_id +"]");
+		
+		logger.debug("REQ] /posting/list diary_id=" + diary_id);
+		
 		Result res = postingService.listPosting(diary_id);
+		
+		logger.info("WAS] /posting/list result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + diary_id);
 		
 		return res;
 	}
@@ -48,7 +56,8 @@ public class PostingController {
     		 @RequestParam("photo") String photo, 
     		 @RequestParam("diaryment") String diaryment, 
     		 @RequestParam("posting_date") String posting_date) {
-		logger.info("===> REQUEST [/upload] diary_id =" + diary_id);
+		
+		logger.debug("REQ] /posting/upload diary_id=" + diary_id);
 		
 		Posting posting = new Posting();
 		posting.diary_id = Integer.parseInt(diary_id);
@@ -56,10 +65,10 @@ public class PostingController {
 		posting.diaryment = diaryment;
 		posting.posting_date = posting_date;
 		
-    	Result result = postingService.addPicture(file, posting);
+    	Result res = postingService.addPicture(file, posting);
 
-    	logger.info("<=== RESPONSE [/upload] result=" + result.toString());
-		
-		return result;
+		logger.info("WAS] /posting/upload result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + diary_id);
+				
+		return res;
 	}
 }

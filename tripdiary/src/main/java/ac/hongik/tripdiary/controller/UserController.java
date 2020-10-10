@@ -1,5 +1,7 @@
 package ac.hongik.tripdiary.controller;
 
+import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ac.hongik.tripdiary.data.CityName;
 import ac.hongik.tripdiary.data.Result;
 import ac.hongik.tripdiary.data.User;
 import ac.hongik.tripdiary.service.UserService;
@@ -26,8 +29,11 @@ public class UserController {
 	@ResponseBody
 	public Result login(@RequestBody User user) { 
 
-		Result res = userService.getUser(user);
+		logger.debug("REQ] /user/login user_id=" + user.user_id);	
 		
+		Result res = userService.getUser(user);
+
+		logger.info("WAS] /user/login result="+ res.result + " error="+ res.error +" user_id=" + user.user_id  + " diary_id=null");	
 		return res;
 	}
 	
@@ -35,7 +41,15 @@ public class UserController {
 	@ResponseBody
 	public Result signup(@RequestBody User user) {
 		
+		logger.debug("REQ] /user/signup user_id=" + user.user_id);	
+		
 		Result res = userService.addUser(user);
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("WAS] /user/signup result="+ res.result + " error="+ res.error +" user_id=" + user.user_id  + " diary_id=null");
+		sb.append(" ");
+		sb.append(user.birthdate.substring(0,7) + " " + user.sex + " " + getUserCities(user.city));	
+		logger.info(sb.toString());
 		
 		return res;
 	}
@@ -62,8 +76,29 @@ public class UserController {
 	@ResponseBody
 	public Result setProfile(@RequestBody User user) {
 		
+		logger.debug("REQ] /user/profile user_id=" + user.user_id);
+		
 		Result res = userService.updateProfile(user);
 		
+		StringBuffer sb = new StringBuffer();
+		sb.append("WAS] /user/profile result="+ res.result + " error="+ res.error +" user_id=" + user.user_id  + " diary_id=null");
+		sb.append(" ");
+		sb.append(user.birthdate.substring(0,7) + " " + user.sex + " " + getUserCities(user.city));	
+		logger.info(sb.toString());
+		
 		return res;
+	}
+	
+	private String getUserCities(ArrayList<CityName> cities) {
+		StringBuffer sb = new StringBuffer();
+		
+		int i = 0;
+		for(CityName city : cities) {
+			if(i++ > 0) {
+				sb.append(",");
+			}
+			sb.append(city.city);
+		}
+		return sb.toString().substring(0, sb.toString().length()-1);
 	}
 }

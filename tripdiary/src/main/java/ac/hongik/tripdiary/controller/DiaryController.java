@@ -26,17 +26,25 @@ public class DiaryController {
 	@ResponseBody
 	public Result create(@RequestBody Diary diary) { 
 
-		Result res = diaryService.createDiary(diary);
+		logger.debug("REQ] /diary/create user_id"+ diary.user_id +"diary_id=" + diary.diary_id);
 		
+		Result res = diaryService.createDiary(diary);
+
+		logger.info("WAS] /diary/create result="+ res.result + " error="+ res.error +" user_id="+ diary.user_id + " diary_id=" + diary.diary_id);
+	
 		return res;
 	}
 	
 	@RequestMapping(value="/list", method=RequestMethod.GET)	
 	@ResponseBody
 	public Result list(@RequestParam String user_id) {
-        logger.info(">>>> user_id[" + user_id +"]");
+		
+		logger.debug("REQ] /diary/list user_id"+ user_id);
+		
 		Result res = diaryService.listDiary(user_id);
 		
+		logger.info("WAS] /diary/list result="+ res.result + " error="+ res.error +" user_id="+ user_id + " diary_id=null");
+
 		return res;
 	}
 

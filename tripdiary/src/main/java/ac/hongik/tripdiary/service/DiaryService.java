@@ -25,7 +25,7 @@ public class DiaryService {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("SELECT * FROM diaries");
 	       	sql.append(" WHERE user_id=:user_id");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);
@@ -65,7 +65,7 @@ public class DiaryService {
 	       	sql.append("INSERT INTO diaries");
 	       	sql.append(" (user_id, title, city_id)");
 	       	sql.append(" VALUES(:user_id, :title, :city_id) ");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", diary.user_id);
@@ -96,7 +96,7 @@ public class DiaryService {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("SELECT * FROM diaries");
 	       	sql.append(" WHERE user_id=:user_id AND city_id=:city_id");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);

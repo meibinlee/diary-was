@@ -13,3 +13,8 @@ datasource:
 
 dir:
   upload: "/Users/kikittong/github/diary-web/img"
+  
+logging:
+  level:
+    org.springframework: INFO
+    org.springframework.web: INFO

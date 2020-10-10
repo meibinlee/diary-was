@@ -31,7 +31,7 @@ public class PostingService {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("SELECT * FROM postings");
 	       	sql.append(" WHERE diary_id=:diary_id");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("diary_id", diary_id);
@@ -59,7 +59,7 @@ public class PostingService {
 	       	sql.append("INSERT INTO postings");
 	       	sql.append(" (diary_id, photo, diaryment, posting_date)");
 	       	sql.append(" VALUES(:diary_id, :photo, :diaryment, :posting_date) ");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("diary_id", posting.diary_id);

@@ -28,8 +28,7 @@ public class UserService {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("SELECT * FROM users");
 	       	sql.append(" WHERE user_id=:user_id");
-	        logger.info(">>>> SQL] " + sql.toString());
-	
+	        logger.debug(">>>> SQL] " + sql.toString());
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user.user_id);
 	
@@ -37,11 +36,11 @@ public class UserService {
 	       	if(list.size() > 0) {
 	       		User item = list.get(0);
 	       		List<CityName> cities = selectCityName(user.user_id);
-	       		logger.info(">>>> cities size] " + cities.size());
+	       		logger.debug(">>>> cities size] " + cities.size());
 	       		for(int i = 0; i < cities.size(); i++) {
 	       			CityName city = cities.get(i);
 	       			item.city.add(city);
-	       			logger.info(">>>> city.city_id] " + city.city_id);
+	       			logger.debug(">>>> city.city_id] " + city.city_id);
 	       		}
 	       		
 	       		if(item.user_pw.equals(user.user_pw)) {
@@ -82,7 +81,7 @@ public class UserService {
 	       	sql.append("INSERT INTO users");
 	       	sql.append(" (user_id, user_pw, user_name, birthdate, sex, signup_date)");
 	       	sql.append(" VALUES(:user_id, :user_pw, :user_name, :birthdate, :sex, :signup_date) ");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user.user_id);
@@ -131,7 +130,7 @@ public class UserService {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("SELECT * FROM users");
 	       	sql.append(" WHERE user_id=:user_id");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);
@@ -158,13 +157,13 @@ public class UserService {
 	
 	public Result updateProfile(User user) {
 		Result result = new Result();
-
+		
 	   	try {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("UPDATE users");
 	       	sql.append(" SET user_pw=:user_pw, user_name=:user_name");;
 	       	sql.append(" WHERE user_id=:user_id");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user.user_id);
@@ -174,14 +173,17 @@ public class UserService {
 	        int row = namedJdbcTemplate.update(sql.toString(), map);
 	        if(row > 0) {
 	        	boolean b = true;
+        		b = deleteCities(user.user_id);
 	        	for(int i = 0; i < user.city.size(); i++) {
 	        		b = insertCities(user.user_id, user.city.get(i).city_id);
-	        		if(b = false) {
+	        		if(b == false) {
 	    	        	break;
 	        		}
 	        	}
-	        	if(b = true) {
+	        	if(b == true) {
 		        	result.result = Result.SUCCESS;
+		        	Result r = getProfile(user.user_id);
+		        	result.body = r.body;
 	        	}
 	        	else {
     	        	result.result = Result.FAIL;
@@ -214,11 +216,34 @@ public class UserService {
 	       	sql.append("INSERT INTO user_cities_favorite");
 	       	sql.append(" (user_id, city_id)");
 	       	sql.append(" VALUES(:user_id, :city_id) ");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);
 	        map.put("city_id", city_id);
+	
+	        int row = namedJdbcTemplate.update(sql.toString(), map);
+	        if(row > 0) {
+	        	return true;
+	        }
+
+	    } catch(Exception e) {
+	   		logger.error(e.toString());
+	   		e.printStackTrace();
+	   	}
+	   	return false;
+	}
+	
+	private boolean deleteCities(String user_id) {
+		
+	   	try {
+	        StringBuffer sql = new StringBuffer();
+	       	sql.append("DELETE FROM user_cities_favorite");
+	       	sql.append(" WHERE user_id=:user_id");
+	        logger.debug(">>>> SQL] " + sql.toString());
+	
+	        Map<String, Object> map = new HashMap<String, Object>();
+	        map.put("user_id", user_id);
 	
 	        int row = namedJdbcTemplate.update(sql.toString(), map);
 	        if(row > 0) {
@@ -242,7 +267,7 @@ public class UserService {
 	       	else {
 		       	sql.append(" WHERE user_id=:user_id");
 	       	}
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);
@@ -264,7 +289,7 @@ public class UserService {
 	       	sql.append(" WHERE city_id IN");
 	       	sql.append("(SELECT city_id FROM user_cities_favorite WHERE user_id=:user_id);");     	
 	       	 
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);
@@ -285,7 +310,7 @@ public class UserService {
 	        StringBuffer sql = new StringBuffer();
 	       	sql.append("SELECT * FROM users");
 	       	sql.append(" WHERE user_id=:user_id");
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("user_id", user_id);

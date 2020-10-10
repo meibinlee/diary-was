@@ -26,7 +26,7 @@ public class CodeService {
 	        sql.append("SELECT distinct(country)");  
 	        sql.append(" FROM trip_diary_db.cities");
 
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	
@@ -61,7 +61,7 @@ public class CodeService {
 	       	if(country != null && !country.equals("")) {
 	       		sql.append(" WHERE country LIKE '%"+ country +"%'");
 	       	}
-	        logger.info(">>>> SQL] " + sql.toString());
+	        logger.debug(">>>> SQL] " + sql.toString());
 	
 	        Map<String, Object> map = new HashMap<String, Object>();
 	
