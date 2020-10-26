@@ -1,0 +1,16 @@
+2020-10-10 21:18:13.120  INFO 6927 --- [main] a.hongik.tripdiary.TripdiaryApplication  : Starting TripdiaryApplication on binibug.local with PID 6927 (/Users/kikittong/github/diary-was/tripdiary/target/classes started by kikittong in /Users/kikittong/github/diary-was/tripdiary)
+2020-10-10 21:18:13.123  INFO 6927 --- [main] a.hongik.tripdiary.TripdiaryApplication  : No active profile set, falling back to default profiles: default
+2020-10-10 21:18:14.199  INFO 6927 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2020-10-10 21:18:14.211  INFO 6927 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-10-10 21:18:14.212  INFO 6927 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.37]
+2020-10-10 21:18:14.282  INFO 6927 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-10-10 21:18:14.283  INFO 6927 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1122 ms
+2020-10-10 21:18:14.657  INFO 6927 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-10-10 21:18:14.963  INFO 6927 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2020-10-10 21:18:15.028  INFO 6927 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-10-10 21:18:15.043  INFO 6927 --- [main] a.hongik.tripdiary.TripdiaryApplication  : Started TripdiaryApplication in 2.326 seconds (JVM running for 3.114)
+2020-10-10 21:18:16.061  INFO 6927 --- [RMI TCP Connection(3)-127.0.0.1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-10-10 21:18:16.061  INFO 6927 --- [RMI TCP Connection(3)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-10-10 21:18:16.066  INFO 6927 --- [RMI TCP Connection(3)-127.0.0.1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
+2020-10-10 21:18:50.906  INFO 6927 --- [RMI TCP Connection(11)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2020-10-10 21:18:50.928  INFO 6927 --- [RMI TCP Connection(11)-127.0.0.1] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'

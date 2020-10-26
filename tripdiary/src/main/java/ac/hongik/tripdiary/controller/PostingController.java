@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ac.hongik.tripdiary.data.Diary;
+import ac.hongik.tripdiary.data.LogMessage;
 import ac.hongik.tripdiary.data.Posting;
 import ac.hongik.tripdiary.data.Result;
+import ac.hongik.tripdiary.data.User;
 import ac.hongik.tripdiary.service.PostingService;
 
 @Controller
@@ -31,7 +34,11 @@ public class PostingController {
 		
 		Result res = postingService.createPosting(posting);
 
-		logger.info("WAS] /posting/create result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + posting.diary_id);
+		Diary diary = new Diary();
+		diary.diary_id = posting.diary_id;
+		LogMessage msg = LogMessage.getLogMessage("/posting/create", res, null, diary);
+		logger.info(msg.toString());
+//		logger.info("WAS] /posting/create result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + posting.diary_id);
 		
 		return res;
 	}
@@ -43,8 +50,12 @@ public class PostingController {
 		logger.debug("REQ] /posting/list diary_id=" + diary_id);
 		
 		Result res = postingService.listPosting(diary_id);
-		
-		logger.info("WAS] /posting/list result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + diary_id);
+
+		Diary diary = new Diary();
+		diary.diary_id = Integer.parseInt(diary_id);
+		LogMessage msg = LogMessage.getLogMessage("/posting/list", res, null, diary);
+		logger.info(msg.toString());
+//		logger.info("WAS] /posting/list result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + diary_id);
 		
 		return res;
 	}
@@ -67,7 +78,11 @@ public class PostingController {
 		
     	Result res = postingService.addPicture(file, posting);
 
-		logger.info("WAS] /posting/upload result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + diary_id);
+		Diary diary = new Diary();
+		diary.diary_id = posting.diary_id;
+		LogMessage msg = LogMessage.getLogMessage("/posting/upload", res, null, diary);
+		logger.info(msg.toString());
+//		logger.info("WAS] /posting/upload result="+ res.result + " error="+ res.error +" user_id=null" + " diary_id=" + diary_id);
 				
 		return res;
 	}

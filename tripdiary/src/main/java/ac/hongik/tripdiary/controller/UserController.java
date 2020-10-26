@@ -1,7 +1,5 @@
 package ac.hongik.tripdiary.controller;
 
-import java.util.ArrayList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ac.hongik.tripdiary.data.CityName;
+import ac.hongik.tripdiary.data.LogMessage;
 import ac.hongik.tripdiary.data.Result;
 import ac.hongik.tripdiary.data.User;
 import ac.hongik.tripdiary.service.UserService;
@@ -33,7 +31,8 @@ public class UserController {
 		
 		Result res = userService.getUser(user);
 
-		logger.info("WAS] /user/login result="+ res.result + " error="+ res.error +" user_id=" + user.user_id  + " diary_id=null");	
+		LogMessage msg = LogMessage.getLogMessage("/user/login", res, user, null);
+		logger.info(msg.toString());
 		return res;
 	}
 	
@@ -45,11 +44,8 @@ public class UserController {
 		
 		Result res = userService.addUser(user);
 		
-		StringBuffer sb = new StringBuffer();
-		sb.append("WAS] /user/signup result="+ res.result + " error="+ res.error +" user_id=" + user.user_id  + " diary_id=null");
-		sb.append(" ");
-		sb.append(user.birthdate.substring(0,7) + " " + user.sex + " " + getUserCities(user.city));	
-		logger.info(sb.toString());
+		LogMessage msg = LogMessage.getLogMessage("/user/signup", res, user, null);
+		logger.info(msg.toString());
 		
 		return res;
 	}
@@ -57,21 +53,12 @@ public class UserController {
 	@RequestMapping(value="/check_id", method=RequestMethod.GET)	
 	@ResponseBody
 	public Result check_id(@RequestParam String user_id) {
-        logger.info(">>>> user_id[" + user_id +"]");
+        logger.debug(">>>> user_id[" + user_id +"]");
 		Result res = userService.checkUser(user_id);
 		
 		return res;
 	}
 	
-/*	@RequestMapping(value="/profile", method=RequestMethod.GET)	
-	@ResponseBody
-	public Result getProfile(@RequestParam User user) {
-		
-		Result res = userService.getUser(user);
-		
-		return res;
-	}	
-*/	
 	@RequestMapping(value="/profile", method=RequestMethod.POST)	
 	@ResponseBody
 	public Result setProfile(@RequestBody User user) {
@@ -80,25 +67,9 @@ public class UserController {
 		
 		Result res = userService.updateProfile(user);
 		
-		StringBuffer sb = new StringBuffer();
-		sb.append("WAS] /user/profile result="+ res.result + " error="+ res.error +" user_id=" + user.user_id  + " diary_id=null");
-		sb.append(" ");
-		sb.append(user.birthdate.substring(0,7) + " " + user.sex + " " + getUserCities(user.city));	
-		logger.info(sb.toString());
-		
-		return res;
-	}
+		LogMessage msg = LogMessage.getLogMessage("/user/profile", res, user, null);
+		logger.info(msg.toString());
 	
-	private String getUserCities(ArrayList<CityName> cities) {
-		StringBuffer sb = new StringBuffer();
-		
-		int i = 0;
-		for(CityName city : cities) {
-			if(i++ > 0) {
-				sb.append(",");
-			}
-			sb.append(city.city);
-		}
-		return sb.toString().substring(0, sb.toString().length()-1);
+		return res;
 	}
 }

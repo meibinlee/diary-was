@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import ac.hongik.tripdiary.data.User;
 import ac.hongik.tripdiary.data.UserCity;
 
 public class UserCityRowMapper implements RowMapper<UserCity> {

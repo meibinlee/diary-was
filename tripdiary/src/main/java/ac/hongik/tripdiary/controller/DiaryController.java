@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ac.hongik.tripdiary.data.Diary;
+import ac.hongik.tripdiary.data.LogMessage;
 import ac.hongik.tripdiary.data.Result;
+import ac.hongik.tripdiary.data.User;
 import ac.hongik.tripdiary.service.DiaryService;
 
 @Controller
@@ -29,8 +31,12 @@ public class DiaryController {
 		logger.debug("REQ] /diary/create user_id"+ diary.user_id +"diary_id=" + diary.diary_id);
 		
 		Result res = diaryService.createDiary(diary);
-
-		logger.info("WAS] /diary/create result="+ res.result + " error="+ res.error +" user_id="+ diary.user_id + " diary_id=" + diary.diary_id);
+		
+		User user = new User();
+		user.user_id = diary.user_id;
+		LogMessage msg = LogMessage.getLogMessage("/diary/create", res, user, diary);
+		logger.info(msg.toString());
+//		logger.info("WAS] /diary/create result="+ res.result + " error="+ res.error +" user_id="+ diary.user_id + " diary_id=" + diary.diary_id);
 	
 		return res;
 	}
@@ -42,8 +48,12 @@ public class DiaryController {
 		logger.debug("REQ] /diary/list user_id"+ user_id);
 		
 		Result res = diaryService.listDiary(user_id);
-		
-		logger.info("WAS] /diary/list result="+ res.result + " error="+ res.error +" user_id="+ user_id + " diary_id=null");
+
+		User user = new User();
+		user.user_id = user_id;
+		LogMessage msg = LogMessage.getLogMessage("/diary/list", res, user, null);
+		logger.info(msg.toString());
+//		logger.info("WAS] /diary/list result="+ res.result + " error="+ res.error +" user_id="+ user_id + " diary_id=null");
 
 		return res;
 	}
